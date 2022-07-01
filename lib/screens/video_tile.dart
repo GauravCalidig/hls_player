@@ -71,12 +71,9 @@ class _VideoTileState extends State<VideoTile> {
                     Expanded(
                       child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
-                          child:
-                              //  isVisible
-                              //     ?
-                              VideoPlayer(_controller)),
-                      // :
-                      //  Image.network(video.coverPicture, fit: BoxFit.cover)),
+                          child: isVisible
+                              ? VideoPlayer(_controller)
+                              : Image.network(video.coverPicture, fit: BoxFit.cover)),
                     ),
                     ListTile(
                         leading: const CircleAvatar(
