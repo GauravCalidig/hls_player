@@ -34,8 +34,9 @@ class _VideoTileState extends State<VideoTile> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(video.videoUrl, videoPlayerOptions: VideoPlayerOptions());
+    _controller = VideoPlayerController.network(video.videoUrl, videoPlayerOptions: VideoPlayerOptions())..setVolume(0);
     _initializeVideoPlayerFuture = _controller.initialize();
+
     _controller.addListener(_updateState);
 
     _updateState();
@@ -95,8 +96,12 @@ class _VideoTileState extends State<VideoTile> {
                   log(visiblePercentage.toString());
                   if (visiblePercentage > 99) {
                     log("Playing video");
+                    // Muting the video on init
+                    // _controller.setVolume(0.0);
+
                     //  Playing the video if the user is looking at it
                     _controller.play();
+
                     isVisible = true;
                     if (mounted) {
                       setState(() {});
@@ -208,15 +213,17 @@ class _VideoTileState extends State<VideoTile> {
     final position = _latestValue.position;
     final duration = _latestValue.duration;
 
+    final durationDiff = duration - position;
+
     return Container(
       decoration: const BoxDecoration(color: Colors.black, borderRadius: BorderRadius.all(Radius.circular(5))),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: RichText(
         text: TextSpan(
-          text: '${formatDuration(position)} ',
+          //     text: '${formatDuration(position)} ',
           children: <InlineSpan>[
             TextSpan(
-              text: '/ ${formatDuration(duration)}',
+              text: formatDuration(durationDiff),
               style: TextStyle(
                 fontSize: 10,
                 color: Colors.white.withOpacity(.75),
