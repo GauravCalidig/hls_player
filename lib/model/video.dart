@@ -3,8 +3,10 @@ class Video {
   String title;
   String videoUrl;
   String coverPicture;
+  int totalViews;
 
-  Video({required this.id, required this.title, required this.videoUrl, required this.coverPicture});
+  Video(
+      {required this.id, required this.title, required this.videoUrl, required this.coverPicture, this.totalViews = 0});
 
   factory Video.fromJson(Map<String, dynamic> json) {
     return Video(

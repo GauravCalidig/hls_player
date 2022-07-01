@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   getVideos() async {
     String jsonString = await getJson();
     json.decode(jsonString).forEach((v) {
-      videos.add(Video.fromJson(v));
+      videos.add(Video.fromJson(v)..totalViews = Random().nextInt(50000));
     });
     setState(() {});
   }
@@ -38,20 +39,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'YouTube',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900),
-        ),
-        leading: Image.network("https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png"),
-        titleSpacing: 10,
+        title: Image.asset("assets/youtube.png", height: 20, width: 90),
         backgroundColor: Colors.white,
-        actions: const [
-          CircleAvatar(
-            backgroundImage: NetworkImage("https://randomuser.me/api/portraits/men/44.jpg"),
+        iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.cast,
+              )),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+              )),
+          IconButton(
+            onPressed: () {},
+            icon: CircleAvatar(
+              backgroundColor: Colors.grey[300],
+              backgroundImage: const NetworkImage("https://randomuser.me/api/portraits/men/44.jpg"),
+            ),
           ),
-          SizedBox(
-            width: 10,
-          )
         ],
       ),
       body: ListView.builder(
