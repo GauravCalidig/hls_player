@@ -3,11 +3,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:hls_player/model/video.dart';
+import 'package:hls_player/screens/components/progress_bar/colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../utils/duration.dart';
 import 'components/play_button.dart';
+import 'components/progress_bar/material_progress_bar.dart';
 
 class VideoTile extends StatefulWidget {
   final Video video;
@@ -138,7 +140,11 @@ class _VideoTileState extends State<VideoTile> {
                                         right: 10,
                                         child: Row(
                                           children: [_buildAudioWave(), const SizedBox(width: 10), _buildPosition()],
-                                        ))
+                                        )),
+                                    Positioned(
+                                      bottom: 0,
+                                      child: SizedBox(height: 5, child: _buildProgressBar()),
+                                    )
                                   ],
                                 )
                               : Image.network(video.coverPicture, fit: BoxFit.cover)),
@@ -299,6 +305,20 @@ class _VideoTileState extends State<VideoTile> {
       isPlaying: _controller.value.isPlaying,
       show: true,
       onPressed: _playPause,
+    );
+  }
+
+  Widget _buildProgressBar() {
+    return MaterialVideoProgressBar(
+      _controller,
+      onDragStart: () {},
+      onDragEnd: () {},
+      colors: ProgressBarColors(
+        playedColor: Colors.red,
+        handleColor: Colors.red,
+        bufferedColor: Theme.of(context).backgroundColor.withOpacity(0.5),
+        backgroundColor: Theme.of(context).disabledColor.withOpacity(.5),
+      ),
     );
   }
 }
